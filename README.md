@@ -177,7 +177,6 @@ Ce projet est sous licence AGPLv3. Voir le fichier [LICENSE](LICENSE) pour plus 
 ## 📞 Contact & Support
 
 - 🐛 **Issues** : [Forgejo Issues](https://forgejo.puffer.fish/sovrabase/sovrabase/issues)
-- 💬 **Discussions** : [Forgejo Discussions](https://forgejo.puffer.fish/sovrabase/sovrabase/discussions)
 - 📧 **Email** : *À venir*
 - 🌐 **Site web** : *À venir*
 
