@@ -5,7 +5,7 @@
   env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = [ pkgs.git ];
+  packages = [ pkgs.git pkgs.protobuf pkgs.protoc-gen-go pkgs.protoc-gen-go-grpc ];
 
   # https://devenv.sh/languages/
   languages.go.enable = true;
