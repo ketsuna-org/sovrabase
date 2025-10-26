@@ -21,27 +21,29 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type GetUserRequest struct {
+type ForwardCommandRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Command       string                 `protobuf:"bytes,1,opt,name=command,proto3" json:"command,omitempty"`
+	TargetNode    string                 `protobuf:"bytes,2,opt,name=target_node,json=targetNode,proto3" json:"target_node,omitempty"`
+	Params        map[string]string      `protobuf:"bytes,3,rep,name=params,proto3" json:"params,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetUserRequest) Reset() {
-	*x = GetUserRequest{}
+func (x *ForwardCommandRequest) Reset() {
+	*x = ForwardCommandRequest{}
 	mi := &file_proto_sovrabase_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetUserRequest) String() string {
+func (x *ForwardCommandRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetUserRequest) ProtoMessage() {}
+func (*ForwardCommandRequest) ProtoMessage() {}
 
-func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
+func (x *ForwardCommandRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_sovrabase_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -53,41 +55,55 @@ func (x *GetUserRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetUserRequest.ProtoReflect.Descriptor instead.
-func (*GetUserRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use ForwardCommandRequest.ProtoReflect.Descriptor instead.
+func (*ForwardCommandRequest) Descriptor() ([]byte, []int) {
 	return file_proto_sovrabase_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetUserRequest) GetId() string {
+func (x *ForwardCommandRequest) GetCommand() string {
 	if x != nil {
-		return x.Id
+		return x.Command
 	}
 	return ""
 }
 
-type GetUserResponse struct {
+func (x *ForwardCommandRequest) GetTargetNode() string {
+	if x != nil {
+		return x.TargetNode
+	}
+	return ""
+}
+
+func (x *ForwardCommandRequest) GetParams() map[string]string {
+	if x != nil {
+		return x.Params
+	}
+	return nil
+}
+
+type ForwardCommandResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	Result        string                 `protobuf:"bytes,2,opt,name=result,proto3" json:"result,omitempty"`
+	ErrorMessage  string                 `protobuf:"bytes,3,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *GetUserResponse) Reset() {
-	*x = GetUserResponse{}
+func (x *ForwardCommandResponse) Reset() {
+	*x = ForwardCommandResponse{}
 	mi := &file_proto_sovrabase_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *GetUserResponse) String() string {
+func (x *ForwardCommandResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetUserResponse) ProtoMessage() {}
+func (*ForwardCommandResponse) ProtoMessage() {}
 
-func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
+func (x *ForwardCommandResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_sovrabase_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -99,1191 +115,51 @@ func (x *GetUserResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetUserResponse.ProtoReflect.Descriptor instead.
-func (*GetUserResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use ForwardCommandResponse.ProtoReflect.Descriptor instead.
+func (*ForwardCommandResponse) Descriptor() ([]byte, []int) {
 	return file_proto_sovrabase_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *GetUserResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *GetUserResponse) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *GetUserResponse) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
-type CreateUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateUserRequest) Reset() {
-	*x = CreateUserRequest{}
-	mi := &file_proto_sovrabase_proto_msgTypes[2]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateUserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateUserRequest) ProtoMessage() {}
-
-func (x *CreateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[2]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateUserRequest.ProtoReflect.Descriptor instead.
-func (*CreateUserRequest) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *CreateUserRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *CreateUserRequest) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
-type CreateUserResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateUserResponse) Reset() {
-	*x = CreateUserResponse{}
-	mi := &file_proto_sovrabase_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateUserResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateUserResponse) ProtoMessage() {}
-
-func (x *CreateUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateUserResponse.ProtoReflect.Descriptor instead.
-func (*CreateUserResponse) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *CreateUserResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-type UpdateUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Email         string                 `protobuf:"bytes,3,opt,name=email,proto3" json:"email,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateUserRequest) Reset() {
-	*x = UpdateUserRequest{}
-	mi := &file_proto_sovrabase_proto_msgTypes[4]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateUserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateUserRequest) ProtoMessage() {}
-
-func (x *UpdateUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[4]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateUserRequest.ProtoReflect.Descriptor instead.
-func (*UpdateUserRequest) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *UpdateUserRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *UpdateUserRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *UpdateUserRequest) GetEmail() string {
-	if x != nil {
-		return x.Email
-	}
-	return ""
-}
-
-type UpdateUserResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateUserResponse) Reset() {
-	*x = UpdateUserResponse{}
-	mi := &file_proto_sovrabase_proto_msgTypes[5]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateUserResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateUserResponse) ProtoMessage() {}
-
-func (x *UpdateUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[5]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateUserResponse.ProtoReflect.Descriptor instead.
-func (*UpdateUserResponse) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *UpdateUserResponse) GetSuccess() bool {
+func (x *ForwardCommandResponse) GetSuccess() bool {
 	if x != nil {
 		return x.Success
 	}
 	return false
 }
 
-type DeleteUserRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteUserRequest) Reset() {
-	*x = DeleteUserRequest{}
-	mi := &file_proto_sovrabase_proto_msgTypes[6]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteUserRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteUserRequest) ProtoMessage() {}
-
-func (x *DeleteUserRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[6]
+func (x *ForwardCommandResponse) GetResult() string {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteUserRequest.ProtoReflect.Descriptor instead.
-func (*DeleteUserRequest) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *DeleteUserRequest) GetId() string {
-	if x != nil {
-		return x.Id
+		return x.Result
 	}
 	return ""
 }
 
-type DeleteUserResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteUserResponse) Reset() {
-	*x = DeleteUserResponse{}
-	mi := &file_proto_sovrabase_proto_msgTypes[7]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteUserResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteUserResponse) ProtoMessage() {}
-
-func (x *DeleteUserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[7]
+func (x *ForwardCommandResponse) GetErrorMessage() string {
 	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteUserResponse.ProtoReflect.Descriptor instead.
-func (*DeleteUserResponse) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{7}
-}
-
-func (x *DeleteUserResponse) GetSuccess() bool {
-	if x != nil {
-		return x.Success
-	}
-	return false
-}
-
-type GetProjectRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetProjectRequest) Reset() {
-	*x = GetProjectRequest{}
-	mi := &file_proto_sovrabase_proto_msgTypes[8]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetProjectRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetProjectRequest) ProtoMessage() {}
-
-func (x *GetProjectRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[8]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetProjectRequest.ProtoReflect.Descriptor instead.
-func (*GetProjectRequest) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *GetProjectRequest) GetId() string {
-	if x != nil {
-		return x.Id
+		return x.ErrorMessage
 	}
 	return ""
-}
-
-type GetProjectResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetProjectResponse) Reset() {
-	*x = GetProjectResponse{}
-	mi := &file_proto_sovrabase_proto_msgTypes[9]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetProjectResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetProjectResponse) ProtoMessage() {}
-
-func (x *GetProjectResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[9]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetProjectResponse.ProtoReflect.Descriptor instead.
-func (*GetProjectResponse) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *GetProjectResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *GetProjectResponse) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *GetProjectResponse) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-type CreateProjectRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateProjectRequest) Reset() {
-	*x = CreateProjectRequest{}
-	mi := &file_proto_sovrabase_proto_msgTypes[10]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateProjectRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateProjectRequest) ProtoMessage() {}
-
-func (x *CreateProjectRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[10]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateProjectRequest.ProtoReflect.Descriptor instead.
-func (*CreateProjectRequest) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *CreateProjectRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *CreateProjectRequest) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-type CreateProjectResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateProjectResponse) Reset() {
-	*x = CreateProjectResponse{}
-	mi := &file_proto_sovrabase_proto_msgTypes[11]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateProjectResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateProjectResponse) ProtoMessage() {}
-
-func (x *CreateProjectResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[11]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateProjectResponse.ProtoReflect.Descriptor instead.
-func (*CreateProjectResponse) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *CreateProjectResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-type UpdateProjectRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateProjectRequest) Reset() {
-	*x = UpdateProjectRequest{}
-	mi := &file_proto_sovrabase_proto_msgTypes[12]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateProjectRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateProjectRequest) ProtoMessage() {}
-
-func (x *UpdateProjectRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[12]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateProjectRequest.ProtoReflect.Descriptor instead.
-func (*UpdateProjectRequest) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{12}
-}
-
-func (x *UpdateProjectRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *UpdateProjectRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *UpdateProjectRequest) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-type UpdateProjectResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateProjectResponse) Reset() {
-	*x = UpdateProjectResponse{}
-	mi := &file_proto_sovrabase_proto_msgTypes[13]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateProjectResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateProjectResponse) ProtoMessage() {}
-
-func (x *UpdateProjectResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[13]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateProjectResponse.ProtoReflect.Descriptor instead.
-func (*UpdateProjectResponse) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{13}
-}
-
-func (x *UpdateProjectResponse) GetSuccess() bool {
-	if x != nil {
-		return x.Success
-	}
-	return false
-}
-
-type DeleteProjectRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteProjectRequest) Reset() {
-	*x = DeleteProjectRequest{}
-	mi := &file_proto_sovrabase_proto_msgTypes[14]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteProjectRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteProjectRequest) ProtoMessage() {}
-
-func (x *DeleteProjectRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[14]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteProjectRequest.ProtoReflect.Descriptor instead.
-func (*DeleteProjectRequest) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{14}
-}
-
-func (x *DeleteProjectRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-type DeleteProjectResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteProjectResponse) Reset() {
-	*x = DeleteProjectResponse{}
-	mi := &file_proto_sovrabase_proto_msgTypes[15]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteProjectResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteProjectResponse) ProtoMessage() {}
-
-func (x *DeleteProjectResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[15]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteProjectResponse.ProtoReflect.Descriptor instead.
-func (*DeleteProjectResponse) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{15}
-}
-
-func (x *DeleteProjectResponse) GetSuccess() bool {
-	if x != nil {
-		return x.Success
-	}
-	return false
-}
-
-type GetOrganizationRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetOrganizationRequest) Reset() {
-	*x = GetOrganizationRequest{}
-	mi := &file_proto_sovrabase_proto_msgTypes[16]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetOrganizationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetOrganizationRequest) ProtoMessage() {}
-
-func (x *GetOrganizationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[16]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetOrganizationRequest.ProtoReflect.Descriptor instead.
-func (*GetOrganizationRequest) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{16}
-}
-
-func (x *GetOrganizationRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-type GetOrganizationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *GetOrganizationResponse) Reset() {
-	*x = GetOrganizationResponse{}
-	mi := &file_proto_sovrabase_proto_msgTypes[17]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *GetOrganizationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*GetOrganizationResponse) ProtoMessage() {}
-
-func (x *GetOrganizationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[17]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use GetOrganizationResponse.ProtoReflect.Descriptor instead.
-func (*GetOrganizationResponse) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{17}
-}
-
-func (x *GetOrganizationResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *GetOrganizationResponse) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *GetOrganizationResponse) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-type CreateOrganizationRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateOrganizationRequest) Reset() {
-	*x = CreateOrganizationRequest{}
-	mi := &file_proto_sovrabase_proto_msgTypes[18]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateOrganizationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateOrganizationRequest) ProtoMessage() {}
-
-func (x *CreateOrganizationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[18]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateOrganizationRequest.ProtoReflect.Descriptor instead.
-func (*CreateOrganizationRequest) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{18}
-}
-
-func (x *CreateOrganizationRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *CreateOrganizationRequest) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-type CreateOrganizationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *CreateOrganizationResponse) Reset() {
-	*x = CreateOrganizationResponse{}
-	mi := &file_proto_sovrabase_proto_msgTypes[19]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *CreateOrganizationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*CreateOrganizationResponse) ProtoMessage() {}
-
-func (x *CreateOrganizationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[19]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use CreateOrganizationResponse.ProtoReflect.Descriptor instead.
-func (*CreateOrganizationResponse) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{19}
-}
-
-func (x *CreateOrganizationResponse) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-type UpdateOrganizationRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateOrganizationRequest) Reset() {
-	*x = UpdateOrganizationRequest{}
-	mi := &file_proto_sovrabase_proto_msgTypes[20]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateOrganizationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateOrganizationRequest) ProtoMessage() {}
-
-func (x *UpdateOrganizationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[20]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateOrganizationRequest.ProtoReflect.Descriptor instead.
-func (*UpdateOrganizationRequest) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{20}
-}
-
-func (x *UpdateOrganizationRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *UpdateOrganizationRequest) GetName() string {
-	if x != nil {
-		return x.Name
-	}
-	return ""
-}
-
-func (x *UpdateOrganizationRequest) GetDescription() string {
-	if x != nil {
-		return x.Description
-	}
-	return ""
-}
-
-type UpdateOrganizationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *UpdateOrganizationResponse) Reset() {
-	*x = UpdateOrganizationResponse{}
-	mi := &file_proto_sovrabase_proto_msgTypes[21]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *UpdateOrganizationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateOrganizationResponse) ProtoMessage() {}
-
-func (x *UpdateOrganizationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[21]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateOrganizationResponse.ProtoReflect.Descriptor instead.
-func (*UpdateOrganizationResponse) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{21}
-}
-
-func (x *UpdateOrganizationResponse) GetSuccess() bool {
-	if x != nil {
-		return x.Success
-	}
-	return false
-}
-
-type DeleteOrganizationRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteOrganizationRequest) Reset() {
-	*x = DeleteOrganizationRequest{}
-	mi := &file_proto_sovrabase_proto_msgTypes[22]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteOrganizationRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteOrganizationRequest) ProtoMessage() {}
-
-func (x *DeleteOrganizationRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[22]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteOrganizationRequest.ProtoReflect.Descriptor instead.
-func (*DeleteOrganizationRequest) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{22}
-}
-
-func (x *DeleteOrganizationRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-type DeleteOrganizationResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
-}
-
-func (x *DeleteOrganizationResponse) Reset() {
-	*x = DeleteOrganizationResponse{}
-	mi := &file_proto_sovrabase_proto_msgTypes[23]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *DeleteOrganizationResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteOrganizationResponse) ProtoMessage() {}
-
-func (x *DeleteOrganizationResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_sovrabase_proto_msgTypes[23]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteOrganizationResponse.ProtoReflect.Descriptor instead.
-func (*DeleteOrganizationResponse) Descriptor() ([]byte, []int) {
-	return file_proto_sovrabase_proto_rawDescGZIP(), []int{23}
-}
-
-func (x *DeleteOrganizationResponse) GetSuccess() bool {
-	if x != nil {
-		return x.Success
-	}
-	return false
 }
 
 var File_proto_sovrabase_proto protoreflect.FileDescriptor
 
 const file_proto_sovrabase_proto_rawDesc = "" +
 	"\n" +
-	"\x15proto/sovrabase.proto\x12\tsovrabase\" \n" +
-	"\x0eGetUserRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"K\n" +
-	"\x0fGetUserResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\"=\n" +
-	"\x11CreateUserRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
-	"\x05email\x18\x02 \x01(\tR\x05email\"$\n" +
-	"\x12CreateUserResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"M\n" +
-	"\x11UpdateUserRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
-	"\x05email\x18\x03 \x01(\tR\x05email\".\n" +
-	"\x12UpdateUserResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"#\n" +
-	"\x11DeleteUserRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\".\n" +
-	"\x12DeleteUserResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"#\n" +
-	"\x11GetProjectRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"Z\n" +
-	"\x12GetProjectResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"L\n" +
-	"\x14CreateProjectRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\"'\n" +
-	"\x15CreateProjectResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\\\n" +
-	"\x14UpdateProjectRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"1\n" +
-	"\x15UpdateProjectResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"&\n" +
-	"\x14DeleteProjectRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"1\n" +
-	"\x15DeleteProjectResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"(\n" +
-	"\x16GetOrganizationRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"_\n" +
-	"\x17GetOrganizationResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"Q\n" +
-	"\x19CreateOrganizationRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x02 \x01(\tR\vdescription\",\n" +
-	"\x1aCreateOrganizationResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"a\n" +
-	"\x19UpdateOrganizationRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"6\n" +
-	"\x1aUpdateOrganizationResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess\"+\n" +
-	"\x19DeleteOrganizationRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"6\n" +
-	"\x1aDeleteOrganizationResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess2\xb0\x02\n" +
-	"\vUserService\x12@\n" +
-	"\aGetUser\x12\x19.sovrabase.GetUserRequest\x1a\x1a.sovrabase.GetUserResponse\x12I\n" +
-	"\n" +
-	"CreateUser\x12\x1c.sovrabase.CreateUserRequest\x1a\x1d.sovrabase.CreateUserResponse\x12I\n" +
-	"\n" +
-	"UpdateUser\x12\x1c.sovrabase.UpdateUserRequest\x1a\x1d.sovrabase.UpdateUserResponse\x12I\n" +
-	"\n" +
-	"DeleteUser\x12\x1c.sovrabase.DeleteUserRequest\x1a\x1d.sovrabase.DeleteUserResponse2\xd7\x02\n" +
-	"\x0eProjectService\x12I\n" +
-	"\n" +
-	"GetProject\x12\x1c.sovrabase.GetProjectRequest\x1a\x1d.sovrabase.GetProjectResponse\x12R\n" +
-	"\rCreateProject\x12\x1f.sovrabase.CreateProjectRequest\x1a .sovrabase.CreateProjectResponse\x12R\n" +
-	"\rUpdateProject\x12\x1f.sovrabase.UpdateProjectRequest\x1a .sovrabase.UpdateProjectResponse\x12R\n" +
-	"\rDeleteProject\x12\x1f.sovrabase.DeleteProjectRequest\x1a .sovrabase.DeleteProjectResponse2\x98\x03\n" +
-	"\x13OrganizationService\x12X\n" +
-	"\x0fGetOrganization\x12!.sovrabase.GetOrganizationRequest\x1a\".sovrabase.GetOrganizationResponse\x12a\n" +
-	"\x12CreateOrganization\x12$.sovrabase.CreateOrganizationRequest\x1a%.sovrabase.CreateOrganizationResponse\x12a\n" +
-	"\x12UpdateOrganization\x12$.sovrabase.UpdateOrganizationRequest\x1a%.sovrabase.UpdateOrganizationResponse\x12a\n" +
-	"\x12DeleteOrganization\x12$.sovrabase.DeleteOrganizationRequest\x1a%.sovrabase.DeleteOrganizationResponseB\"Z github.com/ketsuna-org/sovrabaseb\x06proto3"
+	"\x15proto/sovrabase.proto\x12\tsovrabase\"\xd3\x01\n" +
+	"\x15ForwardCommandRequest\x12\x18\n" +
+	"\acommand\x18\x01 \x01(\tR\acommand\x12\x1f\n" +
+	"\vtarget_node\x18\x02 \x01(\tR\n" +
+	"targetNode\x12D\n" +
+	"\x06params\x18\x03 \x03(\v2,.sovrabase.ForwardCommandRequest.ParamsEntryR\x06params\x1a9\n" +
+	"\vParamsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"o\n" +
+	"\x16ForwardCommandResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x16\n" +
+	"\x06result\x18\x02 \x01(\tR\x06result\x12#\n" +
+	"\rerror_message\x18\x03 \x01(\tR\ferrorMessage2n\n" +
+	"\x15ForwardCommandService\x12U\n" +
+	"\x0eForwardCommand\x12 .sovrabase.ForwardCommandRequest\x1a!.sovrabase.ForwardCommandResponseB\"Z github.com/ketsuna-org/sovrabaseb\x06proto3"
 
 var (
 	file_proto_sovrabase_proto_rawDescOnce sync.Once
@@ -1297,63 +173,21 @@ func file_proto_sovrabase_proto_rawDescGZIP() []byte {
 	return file_proto_sovrabase_proto_rawDescData
 }
 
-var file_proto_sovrabase_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_proto_sovrabase_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_proto_sovrabase_proto_goTypes = []any{
-	(*GetUserRequest)(nil),             // 0: sovrabase.GetUserRequest
-	(*GetUserResponse)(nil),            // 1: sovrabase.GetUserResponse
-	(*CreateUserRequest)(nil),          // 2: sovrabase.CreateUserRequest
-	(*CreateUserResponse)(nil),         // 3: sovrabase.CreateUserResponse
-	(*UpdateUserRequest)(nil),          // 4: sovrabase.UpdateUserRequest
-	(*UpdateUserResponse)(nil),         // 5: sovrabase.UpdateUserResponse
-	(*DeleteUserRequest)(nil),          // 6: sovrabase.DeleteUserRequest
-	(*DeleteUserResponse)(nil),         // 7: sovrabase.DeleteUserResponse
-	(*GetProjectRequest)(nil),          // 8: sovrabase.GetProjectRequest
-	(*GetProjectResponse)(nil),         // 9: sovrabase.GetProjectResponse
-	(*CreateProjectRequest)(nil),       // 10: sovrabase.CreateProjectRequest
-	(*CreateProjectResponse)(nil),      // 11: sovrabase.CreateProjectResponse
-	(*UpdateProjectRequest)(nil),       // 12: sovrabase.UpdateProjectRequest
-	(*UpdateProjectResponse)(nil),      // 13: sovrabase.UpdateProjectResponse
-	(*DeleteProjectRequest)(nil),       // 14: sovrabase.DeleteProjectRequest
-	(*DeleteProjectResponse)(nil),      // 15: sovrabase.DeleteProjectResponse
-	(*GetOrganizationRequest)(nil),     // 16: sovrabase.GetOrganizationRequest
-	(*GetOrganizationResponse)(nil),    // 17: sovrabase.GetOrganizationResponse
-	(*CreateOrganizationRequest)(nil),  // 18: sovrabase.CreateOrganizationRequest
-	(*CreateOrganizationResponse)(nil), // 19: sovrabase.CreateOrganizationResponse
-	(*UpdateOrganizationRequest)(nil),  // 20: sovrabase.UpdateOrganizationRequest
-	(*UpdateOrganizationResponse)(nil), // 21: sovrabase.UpdateOrganizationResponse
-	(*DeleteOrganizationRequest)(nil),  // 22: sovrabase.DeleteOrganizationRequest
-	(*DeleteOrganizationResponse)(nil), // 23: sovrabase.DeleteOrganizationResponse
+	(*ForwardCommandRequest)(nil),  // 0: sovrabase.ForwardCommandRequest
+	(*ForwardCommandResponse)(nil), // 1: sovrabase.ForwardCommandResponse
+	nil,                            // 2: sovrabase.ForwardCommandRequest.ParamsEntry
 }
 var file_proto_sovrabase_proto_depIdxs = []int32{
-	0,  // 0: sovrabase.UserService.GetUser:input_type -> sovrabase.GetUserRequest
-	2,  // 1: sovrabase.UserService.CreateUser:input_type -> sovrabase.CreateUserRequest
-	4,  // 2: sovrabase.UserService.UpdateUser:input_type -> sovrabase.UpdateUserRequest
-	6,  // 3: sovrabase.UserService.DeleteUser:input_type -> sovrabase.DeleteUserRequest
-	8,  // 4: sovrabase.ProjectService.GetProject:input_type -> sovrabase.GetProjectRequest
-	10, // 5: sovrabase.ProjectService.CreateProject:input_type -> sovrabase.CreateProjectRequest
-	12, // 6: sovrabase.ProjectService.UpdateProject:input_type -> sovrabase.UpdateProjectRequest
-	14, // 7: sovrabase.ProjectService.DeleteProject:input_type -> sovrabase.DeleteProjectRequest
-	16, // 8: sovrabase.OrganizationService.GetOrganization:input_type -> sovrabase.GetOrganizationRequest
-	18, // 9: sovrabase.OrganizationService.CreateOrganization:input_type -> sovrabase.CreateOrganizationRequest
-	20, // 10: sovrabase.OrganizationService.UpdateOrganization:input_type -> sovrabase.UpdateOrganizationRequest
-	22, // 11: sovrabase.OrganizationService.DeleteOrganization:input_type -> sovrabase.DeleteOrganizationRequest
-	1,  // 12: sovrabase.UserService.GetUser:output_type -> sovrabase.GetUserResponse
-	3,  // 13: sovrabase.UserService.CreateUser:output_type -> sovrabase.CreateUserResponse
-	5,  // 14: sovrabase.UserService.UpdateUser:output_type -> sovrabase.UpdateUserResponse
-	7,  // 15: sovrabase.UserService.DeleteUser:output_type -> sovrabase.DeleteUserResponse
-	9,  // 16: sovrabase.ProjectService.GetProject:output_type -> sovrabase.GetProjectResponse
-	11, // 17: sovrabase.ProjectService.CreateProject:output_type -> sovrabase.CreateProjectResponse
-	13, // 18: sovrabase.ProjectService.UpdateProject:output_type -> sovrabase.UpdateProjectResponse
-	15, // 19: sovrabase.ProjectService.DeleteProject:output_type -> sovrabase.DeleteProjectResponse
-	17, // 20: sovrabase.OrganizationService.GetOrganization:output_type -> sovrabase.GetOrganizationResponse
-	19, // 21: sovrabase.OrganizationService.CreateOrganization:output_type -> sovrabase.CreateOrganizationResponse
-	21, // 22: sovrabase.OrganizationService.UpdateOrganization:output_type -> sovrabase.UpdateOrganizationResponse
-	23, // 23: sovrabase.OrganizationService.DeleteOrganization:output_type -> sovrabase.DeleteOrganizationResponse
-	12, // [12:24] is the sub-list for method output_type
-	0,  // [0:12] is the sub-list for method input_type
-	0,  // [0:0] is the sub-list for extension type_name
-	0,  // [0:0] is the sub-list for extension extendee
-	0,  // [0:0] is the sub-list for field type_name
+	2, // 0: sovrabase.ForwardCommandRequest.params:type_name -> sovrabase.ForwardCommandRequest.ParamsEntry
+	0, // 1: sovrabase.ForwardCommandService.ForwardCommand:input_type -> sovrabase.ForwardCommandRequest
+	1, // 2: sovrabase.ForwardCommandService.ForwardCommand:output_type -> sovrabase.ForwardCommandResponse
+	2, // [2:3] is the sub-list for method output_type
+	1, // [1:2] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_proto_sovrabase_proto_init() }
@@ -1367,9 +201,9 @@ func file_proto_sovrabase_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_sovrabase_proto_rawDesc), len(file_proto_sovrabase_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   24,
+			NumMessages:   3,
 			NumExtensions: 0,
-			NumServices:   3,
+			NumServices:   1,
 		},
 		GoTypes:           file_proto_sovrabase_proto_goTypes,
 		DependencyIndexes: file_proto_sovrabase_proto_depIdxs,

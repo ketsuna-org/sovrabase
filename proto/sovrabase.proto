@@ -4,143 +4,19 @@ package sovrabase;
 
 option go_package = "github.com/ketsuna-org/sovrabase";
 
-/**
-
-Example Proto file defining gRPC services for User, Project, and Organization management. Not intended for production use.
-*/
-
-
-// User service
-service UserService {
-  rpc GetUser(GetUserRequest) returns (GetUserResponse);
-  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
-  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
-  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+// ForwardCommand service
+service ForwardCommandService {
+  rpc ForwardCommand(ForwardCommandRequest) returns (ForwardCommandResponse);
 }
 
-message GetUserRequest {
-  string id = 1;
+message ForwardCommandRequest {
+  string command = 1;
+  string target_node = 2;
+  map<string, string> params = 3;
 }
 
-message GetUserResponse {
-  string id = 1;
-  string name = 2;
-  string email = 3;
-}
-
-message CreateUserRequest {
-  string name = 1;
-  string email = 2;
-}
-
-message CreateUserResponse {
-  string id = 1;
-}
-
-message UpdateUserRequest {
-  string id = 1;
-  string name = 2;
-  string email = 3;
-}
-
-message UpdateUserResponse {
+message ForwardCommandResponse {
   bool success = 1;
-}
-
-message DeleteUserRequest {
-  string id = 1;
-}
-
-message DeleteUserResponse {
-  bool success = 1;
-}
-
-// Project service
-service ProjectService {
-  rpc GetProject(GetProjectRequest) returns (GetProjectResponse);
-  rpc CreateProject(CreateProjectRequest) returns (CreateProjectResponse);
-  rpc UpdateProject(UpdateProjectRequest) returns (UpdateProjectResponse);
-  rpc DeleteProject(DeleteProjectRequest) returns (DeleteProjectResponse);
-}
-
-message GetProjectRequest {
-  string id = 1;
-}
-
-message GetProjectResponse {
-  string id = 1;
-  string name = 2;
-  string description = 3;
-}
-
-message CreateProjectRequest {
-  string name = 1;
-  string description = 2;
-}
-
-message CreateProjectResponse {
-  string id = 1;
-}
-
-message UpdateProjectRequest {
-  string id = 1;
-  string name = 2;
-  string description = 3;
-}
-
-message UpdateProjectResponse {
-  bool success = 1;
-}
-
-message DeleteProjectRequest {
-  string id = 1;
-}
-
-message DeleteProjectResponse {
-  bool success = 1;
-}
-
-// Organization service
-service OrganizationService {
-  rpc GetOrganization(GetOrganizationRequest) returns (GetOrganizationResponse);
-  rpc CreateOrganization(CreateOrganizationRequest) returns (CreateOrganizationResponse);
-  rpc UpdateOrganization(UpdateOrganizationRequest) returns (UpdateOrganizationResponse);
-  rpc DeleteOrganization(DeleteOrganizationRequest) returns (DeleteOrganizationResponse);
-}
-
-message GetOrganizationRequest {
-  string id = 1;
-}
-
-message GetOrganizationResponse {
-  string id = 1;
-  string name = 2;
-  string description = 3;
-}
-
-message CreateOrganizationRequest {
-  string name = 1;
-  string description = 2;
-}
-
-message CreateOrganizationResponse {
-  string id = 1;
-}
-
-message UpdateOrganizationRequest {
-  string id = 1;
-  string name = 2;
-  string description = 3;
-}
-
-message UpdateOrganizationResponse {
-  bool success = 1;
-}
-
-message DeleteOrganizationRequest {
-  string id = 1;
-}
-
-message DeleteOrganizationResponse {
-  bool success = 1;
+  string result = 2;
+  string error_message = 3;
 }
