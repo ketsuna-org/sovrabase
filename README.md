@@ -2,7 +2,7 @@
 
 > Une plateforme Backend-as-a-Service (BaaS) open source, souveraine et composable — conçue pour reprendre le contrôle de votre infrastructure.
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-AGPLv3-blue.svg)](LICENSE)
 [![Go Version](https://img.shields.io/badge/go-1.25.2-00ADD8.svg)](https://go.dev/)
 
 ---
