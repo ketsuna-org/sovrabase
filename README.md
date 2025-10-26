@@ -176,8 +176,8 @@ Ce projet est sous licence AGPLv3. Voir le fichier [LICENSE](LICENSE) pour plus 
 
 ## 📞 Contact & Support
 
-- 🐛 **Issues** : [GitHub Issues](https://github.com/ketsuna-org/sovrabase/issues)
-- 💬 **Discussions** : [GitHub Discussions](https://github.com/ketsuna-org/sovrabase/discussions)
+- 🐛 **Issues** : [Forgejo Issues](https://forgejo.puffer.fish/sovrabase/sovrabase/issues)
+- 💬 **Discussions** : [Forgejo Discussions](https://forgejo.puffer.fish/sovrabase/sovrabase/discussions)
 - 📧 **Email** : *À venir*
 - 🌐 **Site web** : *À venir*
 
