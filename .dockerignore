@@ -1,0 +1,47 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+.forgejo
+.github
+
+# Documentation
+README.md
+docs/
+LICENSE
+
+# Development
+.devenv
+.direnv
+devenv.nix
+devenv.yaml
+devenv.lock
+
+# Build artifacts
+*.out
+*.test
+coverage.txt
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tests
+tests/
+
+# Scripts
+scripts/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
