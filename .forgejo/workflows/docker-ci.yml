@@ -15,7 +15,16 @@ jobs:
       options: --privileged
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        run: |
+          apk add --no-cache git
+          git clone --depth 1 --branch ${GITHUB_REF_NAME} https://oauth2:${GITHUB_TOKEN}@${GITHUB_SERVER_URL#https://}/${GITHUB_REPOSITORY}.git .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Start Docker daemon
+        run: |
+          dockerd &
+          sleep 5
 
       - name: Login to Forgejo Container Registry
         if: github.event_name != 'pull_request'
