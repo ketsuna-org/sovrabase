@@ -1,10 +1,15 @@
 name: Hello World
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
 jobs:
-  print-content:
+  hello:
     runs-on: docker
     steps:
-      - name: list directory contents
-        run: ls -la
-
+      - name: Echo Hello World
+        run: echo "Hello World"
