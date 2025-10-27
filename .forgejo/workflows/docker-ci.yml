@@ -10,34 +10,38 @@ on:
 jobs:
   build:
     runs-on: docker
-    container:
-      image: docker:dind
-      options: --privileged
     steps:
       - name: Checkout code
-        run: |
-          apk add --no-cache git
-          git clone --depth 1 --branch ${GITHUB_REF_NAME} https://oauth2:${GITHUB_TOKEN}@${GITHUB_SERVER_URL#https://}/${GITHUB_REPOSITORY}.git .
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Start Docker daemon
-        run: |
-          dockerd &
-          sleep 5
+        uses: actions/checkout@v4
 
       - name: Login to Forgejo Container Registry
         if: github.event_name != 'pull_request'
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REPO_URL }} -u ${{ github.actor }} --password-stdin
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REPO_URL }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build Docker image
-        run: |
-          docker build -t ${{ env.REPO_URL }}/${{ github.repository }}:latest \
-                       -t ${{ env.REPO_URL }}/${{ github.repository }}:${{ github.sha }} .
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REPO_URL }}/${{ github.repository }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
 
-      - name: Push Docker image
-        if: github.event_name != 'pull_request'
-        run: |
-          docker push ${{ env.REPO_URL }}/${{ github.repository }}:latest
-          docker push ${{ env.REPO_URL }}/${{ github.repository }}:${{ github.sha }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
