@@ -12,9 +12,22 @@ api_domain = "example.com"
 manager = "sqlite"
 uri = "./database/internal.db"
 
-[external_db]
-manager = "postgres"
-uri = "postgres://root:password@localhost:5432/"
+[orchestrator]
+# Type d'orchestrateur: "docker" ou "kubernetes"
+type = "docker"
+
+# Configuration Docker/Podman
+docker_host = "unix:///mnt/wsl/podman-sockets/podman-machine-default/podman-root.sock"
+# Autres exemples:
+# Docker standard: "unix:///var/run/docker.sock"
+# Podman rootless: "unix:///run/user/1000/podman/podman.sock"
+# Podman root: "unix:///run/podman/podman.sock"
+# Hôte distant: "tcp://remote-host:2375"
+
+# Configuration Kubernetes (si type = "kubernetes")
+# kube_api = "https://kubernetes.default.svc"
+# kube_token = "your-kubernetes-api-token"
+# namespace = "sovrabase-databases"
 
 [cluster]
 node_id = "node-01"
