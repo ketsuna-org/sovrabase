@@ -1,6 +1,9 @@
 # Stage 1: Build
 FROM golang:1.25.2-alpine AS builder
 
+# Build arguments for multi-architecture support
+ARG TARGETARCH
+
 # Install build dependencies
 RUN apk add --no-cache git ca-certificates tzdata
 
@@ -18,7 +21,8 @@ COPY . .
 # Build the application
 # CGO_ENABLED=0 for static binary
 # -ldflags="-w -s" to strip debug info and reduce binary size
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+# TARGETARCH will be automatically set by Docker buildx (amd64 or arm64)
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH} go build \
     -ldflags="-w -s" \
     -o sovrabase \
     ./cmd/server/main.go
