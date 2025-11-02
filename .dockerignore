@@ -12,6 +12,10 @@ README.md
 docs/
 LICENSE
 
+# Configuration (should be mounted as volume)
+config.yaml
+config.*.yaml
+
 # Development
 .devenv
 .direnv

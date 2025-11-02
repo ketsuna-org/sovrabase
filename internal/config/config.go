@@ -14,12 +14,6 @@ import (
 	_ "k8s.io/client-go/rest"
 )
 
-// RPC holds RPC configuration
-type RPC struct {
-	RPCSecret string `yaml:"rpc_secret"`
-	RPCAddr   string `yaml:"rpc_addr"`
-}
-
 // API holds API configuration
 type API struct {
 	APIAddr   string   `yaml:"api_addr"`
@@ -42,21 +36,20 @@ type Orchestrator struct {
 	Namespace  string `yaml:"namespace"`   // Kubernetes namespace for database deployments
 }
 
-// Cluster holds cluster/distributed configuration
-type Cluster struct {
-	NodeID      string   `yaml:"node_id"`
-	IsRPCServer bool     `yaml:"is_rpc_server"`
-	RPCServers  []string `yaml:"rpc_servers"`
+// SuperUser holds super user configuration
+type SuperUser struct {
+	Username string `yaml:"username"`
+	Password string `yaml:"password"`
+	Email    string `yaml:"email"`
 }
 
 // Config holds the application configuration
 type Config struct {
 	Region       string
-	RPC          RPC
 	API          API
 	InternalDB   InternalDB
 	Orchestrator Orchestrator
-	Cluster      Cluster
+	SuperUser    SuperUser
 }
 
 // LoadConfig loads configuration from a YAML file

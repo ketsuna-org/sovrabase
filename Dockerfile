@@ -38,12 +38,6 @@ COPY --from=builder /usr/share/zoneinfo /usr/share/zoneinfo
 
 # Copy binary
 COPY --from=builder /build/sovrabase /sovrabase
-
-# Copy config file
-COPY --from=builder /build/config.yaml /config.yaml
-
-# Expose gRPC port (adjust based on your config)
-EXPOSE 50051
-
 # Run the application
+# The config file must be provided via volume mount at /config/config.yaml
 ENTRYPOINT ["/sovrabase"]

@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	mux "github.com/gorilla/mux"
 	"github.com/ketsuna-org/sovrabase/internal/config"
@@ -10,9 +11,15 @@ import (
 )
 
 func main() {
-	cfg, err := config.LoadConfig("config.yaml")
+	// Get config path from environment variable or use default
+	configPath := os.Getenv("CONFIG_PATH")
+	if configPath == "" {
+		configPath = "config.yaml"
+	}
+
+	cfg, err := config.LoadConfig(configPath)
 	if err != nil {
-		log.Fatalf("failed to load config: %v", err)
+		log.Fatalf("failed to load config from %s: %v", configPath, err)
 	}
 
 	// Setup HTTP Server

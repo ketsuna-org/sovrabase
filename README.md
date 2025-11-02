@@ -1,23 +1,51 @@
 # Sovrabase
 
-> Une plateforme Backend-as-a-Service (BaaS) open source, souveraine et composable — conçue pour reprendre le contrôle de votre infrastructure.
+> Une plateforme Backend-as-a-Service (BaaS) open source, souveraine et composable.
 
 [![License](https://img.shields.io/badge/license-AGPLv3-blue.svg)](LICENSE)
-[![Go Version](https://img.shields.io/badge/go-1.25.2-00ADD8.svg)](https://go.dev/)
-
----
 
 ## 🎯 Vision
 
-**Sovrabase** est une alternative moderne et souveraine aux plateformes BaaS existantes (Firebase, Supabase, Appwrite). Elle répond aux besoins des entreprises et développeurs qui cherchent :
+Sovrabase est une alternative souveraine à Firebase/Supabase : contrôle total, multi-tenant, multi-région, et extensible.
 
-- **L'indépendance technologique** : aucun vendor lock-in, aucune dépendance à Google Cloud ou AWS
-- **La souveraineté des données** : hébergement on-premises ou cloud privé (RGPD-friendly)
-- **La flexibilité architecturale** : infrastructure modulaire et composable
-- **La scalabilité multi-région** : distribution géographique native des données
-- **La transparence totale** : open source, auditable, gouvernance claire
+## 🚀 Quick Start
 
----
+```bash
+git clone https://github.com/ketsuna-org/sovrabase.git
+cd sovrabase
+cp config.example.yaml config.yaml  # Éditez config.yaml
+docker compose up -d
+curl http://localhost:8080/health
+```
+
+Voir [docs/config.md](docs/config.md) pour la config détaillée.
+
+## 📦 Fonctionnalités principales
+
+- Authentication & Authorization
+- Database Management (PostgreSQL, MongoDB)
+- Storage S3-compatible
+- Real-time (WebSocket)
+- Multi-tenancy & Multi-region
+- RBAC avancé
+
+## 🛠️ Technologies
+
+- Backend : Go 1.25+
+- Infra : Docker, Kubernetes-ready
+- DB : PostgreSQL, MongoDB, Redis
+
+## 🚧 Statut
+
+En développement. Roadmap : [Phase 1-4 détaillée dans docs](docs/ROADMAP.md).
+
+## 🤝 Contribution
+
+Fork, branche, commit, PR. Voir [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## 📄 Licence
+
+AGPLv3.
 
 ## 🚀 Pourquoi Sovrabase ?
 
@@ -116,7 +144,222 @@ Sovrabase est conçu pour les entreprises exigeantes en matière de conformité 
 
 ---
 
-## 🚧 Statut du projet
+## 🐳 Installation et Déploiement avec Docker
+
+Sovrabase utilise Docker pour orchestrer les bases de données des projets. L'application elle-même s'exécute dans un conteneur et a besoin d'accéder au daemon Docker de l'hôte.
+
+### 🚀 Quick Start
+
+```bash
+# 1. Cloner le repository
+git clone https://github.com/ketsuna-org/sovrabase.git
+cd sovrabase
+
+# 2. Créer votre fichier de configuration
+cp config.example.yaml config.yaml
+# Éditez config.yaml avec vos paramètres (notamment le JWT secret!)
+
+# 3. Démarrer avec Docker Compose
+docker compose up -d
+
+# 4. Vérifier que tout fonctionne
+curl http://localhost:8080/health
+```
+
+Ou utilisez le Makefile :
+
+```bash
+make start        # Setup + build + run
+make docker-logs  # Voir les logs
+make docker-stop  # Arrêter
+```
+
+### Prérequis
+
+- Docker Engine 20.10+
+- Un fichier `config.yaml` configuré (voir [docs/config.md](docs/config.md))
+
+### Configuration requise
+
+Sovrabase nécessite **deux volumes montés** pour fonctionner correctement :
+
+#### 1. Fichier de configuration : `config.yaml`
+
+Montage : `./config.yaml:/config/config.yaml:ro`
+
+Ce fichier contient toute la configuration de Sovrabase :
+- Le type d'orchestrateur (Docker)
+- Les informations de connexion
+- Les paramètres de l'API et CORS
+- La configuration JWT
+- La base de données interne (SQLite, PostgreSQL, MySQL)
+
+**Exemple de `config.yaml` minimal :**
+
+```yaml
+api:
+  host: "0.0.0.0"
+  port: 8080
+  cors:
+    allowed_origins:
+      - "http://localhost:3000"
+
+jwt:
+  secret: "votre-secret-jwt-tres-securise"
+  expiration: "24h"
+
+orchestrator:
+  type: "docker"
+  docker_host: "unix:///var/run/docker.sock"
+
+database:
+  type: "sqlite"
+  connection_string: "/data/sovrabase.db"
+```
+
+#### 2. Socket Docker
+
+Montage : `/var/run/docker.sock:/var/run/docker.sock`
+
+Ce volume permet à Sovrabase de communiquer avec le daemon Docker de l'hôte pour :
+- Créer des conteneurs PostgreSQL pour chaque projet
+- Gérer le cycle de vie des bases de données
+- Lister et inspecter les conteneurs existants
+
+#### 3. Volume de données (si SQLite)
+
+Montage : `sovrabase-data:/data` (volume nommé Docker)
+
+Si vous utilisez SQLite comme base de données interne, ce volume persiste les données :
+- Survit à la suppression du conteneur
+- Permet les mises à jour sans perte de données
+- Stocke la base SQLite (`/data/sovrabase.db`)
+
+> **Note** : Si vous utilisez PostgreSQL ou MySQL comme base interne, ce volume n'est pas nécessaire.
+
+### Lancement avec Docker
+
+```bash
+# Créer un réseau Docker (optionnel mais recommandé)
+docker network create sovrabase-network
+
+# Créer un volume pour SQLite
+docker volume create sovrabase-data
+
+# Lancer Sovrabase
+docker run -d \
+  --name sovrabase \
+  --network sovrabase-network \
+  -p 8080:8080 \
+  -v $(pwd)/config.yaml:/config/config.yaml:ro \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v sovrabase-data:/data \
+  -e CONFIG_PATH=/config/config.yaml \
+  ghcr.io/ketsuna-org/sovrabase:latest
+```
+
+### Lancement avec Docker Compose
+
+Créez un fichier `docker-compose.yml` :
+
+```yaml
+version: '3.8'
+
+services:
+  sovrabase:
+    image: ghcr.io/ketsuna-org/sovrabase:latest
+    container_name: sovrabase
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      # Fichier de configuration (REQUIS)
+      - ./config.yaml:/config/config.yaml:ro
+      # Socket Docker pour l'orchestration (REQUIS)
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Volume pour SQLite (si utilisé)
+      - sovrabase-data:/data
+    environment:
+      - CONFIG_PATH=/config/config.yaml
+    networks:
+      - sovrabase-network
+
+networks:
+  sovrabase-network:
+    driver: bridge
+
+volumes:
+  sovrabase-data:
+    driver: local
+```
+
+Puis lancez avec :
+
+```bash
+docker compose up -d
+```
+
+### ⚠️ Considérations de sécurité
+
+**Attention** : Monter le socket Docker (`/var/run/docker.sock`) donne au conteneur un accès privilégié au daemon Docker de l'hôte. Cela signifie que :
+
+- Le conteneur peut créer, modifier et supprimer d'autres conteneurs
+- Il a accès à tous les volumes et réseaux Docker
+- C'est équivalent à un accès root sur l'hôte
+
+**Recommandations** :
+
+1. **En production** : Utilisez un socket Docker avec des permissions restreintes ou un proxy Docker comme [docker-socket-proxy](https://github.com/Tecnativa/docker-socket-proxy)
+2. **Isolation réseau** : Utilisez des réseaux Docker dédiés
+3. **Firewall** : Limitez l'accès à l'API Sovrabase aux IPs autorisées
+4. **Monitoring** : Surveillez les actions Docker effectuées par Sovrabase
+
+### Build depuis les sources
+
+```bash
+# Cloner le repository
+git clone https://github.com/ketsuna-org/sovrabase.git
+cd sovrabase
+
+# Builder l'image Docker
+docker build -t sovrabase:local .
+
+# Lancer avec votre image locale
+docker run -d \
+  --name sovrabase \
+  -p 8080:8080 \
+  -v $(pwd)/config.yaml:/config/config.yaml:ro \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  sovrabase:local
+```
+
+### Vérification de l'installation
+
+Une fois Sovrabase lancé, vérifiez qu'il fonctionne :
+
+```bash
+# Health check
+curl http://localhost:8080/health
+
+# Devrait retourner : {"status":"ok"}
+```
+
+### Logs et debugging
+
+```bash
+# Voir les logs en temps réel
+docker logs -f sovrabase
+
+# Voir les dernières 100 lignes
+docker logs --tail 100 sovrabase
+
+# Inspecter le conteneur
+docker inspect sovrabase
+```
+
+---
+
+## �🚧 Statut du projet
 
 **⚠️ En développement actif** — Sovrabase est actuellement en phase de conception et développement.
 

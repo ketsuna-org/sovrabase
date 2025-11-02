@@ -1,9 +1,5 @@
 region: supabase
 
-rpc:
-  rpc_secret: random_secret_12345
-  rpc_addr: "[::]:8080"
-
 api:
   api_addr: "[::]:3000"
   domain: api.example.com
@@ -30,3 +26,8 @@ orchestrator:
   # kube_api: https://kubernetes.default.svc
   # kube_token: your-kubernetes-api-token
   # namespace: sovrabase-databases
+
+super_user:
+  username: "admin"
+  password: "CHANGE-THIS-TO-A-SECURE-PASSWORD"
+  email: "admin@example.com"
