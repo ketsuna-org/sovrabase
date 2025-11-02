@@ -2,8 +2,9 @@ package config
 
 import (
 	"fmt"
+	"os"
 
-	"github.com/BurntSushi/toml"
+	"gopkg.in/yaml.v3"
 
 	// Import des packages Docker et Kubernetes pour la gestion des conteneurs
 	_ "github.com/docker/docker/client"
@@ -15,36 +16,37 @@ import (
 
 // RPC holds RPC configuration
 type RPC struct {
-	RPCSecret string `toml:"rpc_secret"`
-	RPCAddr   string `toml:"rpc_addr"`
+	RPCSecret string `yaml:"rpc_secret"`
+	RPCAddr   string `yaml:"rpc_addr"`
 }
 
 // API holds API configuration
 type API struct {
-	APIAddr   string `toml:"api_addr"`
-	APIDomain string `toml:"api_domain"`
+	APIAddr   string   `yaml:"api_addr"`
+	CORSAllow []string `yaml:"cors_allow"`
+	Domain    string   `yaml:"domain"`
 }
 
 // InternalDB holds internal database configuration
 type InternalDB struct {
-	Manager string `toml:"manager"`
-	URI     string `toml:"uri"`
+	Manager string `yaml:"manager"`
+	URI     string `yaml:"uri"`
 }
 
 // Orchestrator holds container orchestration configuration
 type Orchestrator struct {
-	Type       string `toml:"type"`        // "docker" or "kubernetes"
-	DockerHost string `toml:"docker_host"` // Docker/Podman socket or remote host
-	KubeAPI    string `toml:"kube_api"`    // Kubernetes API endpoint
-	KubeToken  string `toml:"kube_token"`  // Kubernetes API token
-	Namespace  string `toml:"namespace"`   // Kubernetes namespace for database deployments
+	Type       string `yaml:"type"`        // "docker" or "kubernetes"
+	DockerHost string `yaml:"docker_host"` // Docker/Podman socket or remote host
+	KubeAPI    string `yaml:"kube_api"`    // Kubernetes API endpoint
+	KubeToken  string `yaml:"kube_token"`  // Kubernetes API token
+	Namespace  string `yaml:"namespace"`   // Kubernetes namespace for database deployments
 }
 
 // Cluster holds cluster/distributed configuration
 type Cluster struct {
-	NodeID      string   `toml:"node_id"`
-	IsRPCServer bool     `toml:"is_rpc_server"`
-	RPCServers  []string `toml:"rpc_servers"`
+	NodeID      string   `yaml:"node_id"`
+	IsRPCServer bool     `yaml:"is_rpc_server"`
+	RPCServers  []string `yaml:"rpc_servers"`
 }
 
 // Config holds the application configuration
@@ -57,10 +59,16 @@ type Config struct {
 	Cluster      Cluster
 }
 
-// LoadConfig loads configuration from a TOML file
+// LoadConfig loads configuration from a YAML file
 func LoadConfig(filePath string) (*Config, error) {
 	var config Config
-	if _, err := toml.DecodeFile(filePath, &config); err != nil {
+
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read config file: %w", err)
+	}
+
+	if err := yaml.Unmarshal(data, &config); err != nil {
 		return nil, fmt.Errorf("failed to decode config file: %w", err)
 	}
 
