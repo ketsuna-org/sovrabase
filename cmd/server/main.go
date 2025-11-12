@@ -1,3 +1,10 @@
+// Package main Sovrabase API
+//
+//	@title			Sovrabase API
+//	@version		1.0
+//	@description	This is the Sovrabase API server.
+//	@host			localhost:8080
+//	@BasePath		/
 package main
 
 import (
@@ -6,8 +13,11 @@ import (
 	"os"
 
 	mux "github.com/gorilla/mux"
+	_ "github.com/ketsuna-org/sovrabase/docs"
+	"github.com/ketsuna-org/sovrabase/internal/api/routes"
 	"github.com/ketsuna-org/sovrabase/internal/config"
 	"github.com/ketsuna-org/sovrabase/internal/middleware"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func main() {
@@ -38,7 +48,12 @@ func main() {
 		Domain:         cfg.API.Domain,
 		AllowedOrigins: cfg.API.CORSAllow,
 	}
+	// Swagger route
+	router.PathPrefix("/docs").Handler(httpSwagger.WrapHandler)
+
 	router.Use(middleware.CORSMiddleware(corsConfig))
+
+	routes.SetupRoutes(router)
 
 	router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
