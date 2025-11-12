@@ -1,4 +1,4 @@
-.PHONY: build run test clean proto
+.PHONY: build run test clean proto docs
 
 build:
 	go build -o bin/server ./cmd/server
@@ -17,3 +17,6 @@ proto:
 
 clean:
 	rm -rf bin/*
+
+docs:
+	swag init --parseDependency --parseInternal -g cmd/server/main.go -d ./ 2>&1
